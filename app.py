@@ -13,8 +13,7 @@ from database.base import Base
 from aiogram import Dispatcher, Bot
 
 from filters.admin import AdminFilter
-from handlers.menu import register_menu
-from handlers.unknown_messages import register_unknown_message
+from handlers import setup_handlers
 from middlewares.database import DatabaseMiddleware
 from middlewares.role import RoleMiddleware
 from middlewares.throttling import ThrottlingMiddleware
@@ -67,8 +66,7 @@ async def main():
 
     dp.filters_factory.bind(AdminFilter)
 
-    register_menu(dp)
-    register_unknown_message(dp)
+    setup_handlers(dp)
 
     await set_default_commands(dp)
     await notify_admins(dp, config.bot.admins)
