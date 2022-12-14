@@ -24,10 +24,6 @@ from utils.notify_admins import notify_admins
 from scheduler.start import scheduler
 
 
-async def shutdown(dispatcher: Dispatcher):
-    await dispatcher.storage.close()
-    await dispatcher.storage.wait_closed()
-
 
 async def create_engine(host: str, password: str, username: str, database: str) -> AsyncEngine:
     engine = create_async_engine(
