@@ -32,7 +32,7 @@ async def shutdown(dispatcher: Dispatcher):
 async def create_engine(host: str, password: str, username: str, database: str) -> AsyncEngine:
     engine = create_async_engine(
         f'postgresql+asyncpg://{username}:{password}@{host}/'
-        f'{database}', echo=True, future=True)
+        f'{database}', echo=False, future=True)
 
     async with engine.begin() as conn:
         # await conn.run_sync(Base.metadata.drop_all)
@@ -75,6 +75,7 @@ async def main():
 
     # start
     try:
+        logging.warning('Bot started!')
         await dp.start_polling()
     finally:
         await dp.storage.close()
@@ -87,4 +88,4 @@ if __name__ == '__main__':
     try:
         asyncio.run(main())
     except (KeyboardInterrupt, SystemExit):
-        logging.error("Bot stopped!")
+        logging.warning('Bot stopped!')

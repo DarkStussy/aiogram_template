@@ -1,1 +1,1 @@
-from .menu_keyboard import inline_kb_menu
+from .menu_keyboard import get_kb_menu

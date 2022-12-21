@@ -1,4 +1,5 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-menu_button = InlineKeyboardButton('Menu', callback_data='menu')
-inline_kb_menu = InlineKeyboardMarkup().add(menu_button)
+
+def get_kb_menu() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup().add(InlineKeyboardButton('Menu', callback_data='menu'))
