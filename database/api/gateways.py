@@ -1,4 +1,3 @@
-import asyncio
 import typing
 
 from sqlalchemy import select
@@ -14,30 +13,22 @@ class BaseGateway:
 class Gateway(BaseGateway):
     """Database gateway"""
 
-    async def merge(self, *args):
+    async def merge(self, model):
         """
         Merge models
-        Example: await gateway.merge(User(id=1, username='user1'), User(id=2, username='user2'))
+        Example: await gateway.merge(User(id=1, username='user'))
         """
         async with self.session() as s:
-            coroutines = []
-            for arg in args:
-                if arg:
-                    coroutines.append(s.merge(arg))
-            await asyncio.gather(*coroutines)
+            await s.merge(model)
             await s.commit()
 
-    async def delete(self, *args):
+    async def delete(self, model):
         """
         Delete models
-        Example: await gateway.delete(user1, user2)
+        Example: await gateway.delete(user)
         """
         async with self.session() as s:
-            coroutines = []
-            for arg in args:
-                if arg:
-                    coroutines.append(s.delete(arg))
-            await asyncio.gather(*coroutines)
+            await s.delete(model)
             await s.commit()
 
     @property
