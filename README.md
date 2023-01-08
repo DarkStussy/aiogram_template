@@ -4,7 +4,7 @@ Very simple aiogram bot template. Reference and idea: https://github.com/Tishka1
 
 Stack: aiogram, PostgreSQL (SQLAlchemy + asyncpg), aioschedule, redis, alembic + psycopg2.
 
-# How to use
+## How to use
 
 ### 1. Create and activate virtual environment
 ### 2. Then install requirements
@@ -40,7 +40,7 @@ alembic upgrade heads
 ### 4. Rename .env.example to .env and edit file
 
 ```
-BOT_TOKEN=  <-(Here bot token from BotFather
+BOT_TOKEN=  <-(Here bot token from BotFather)
 
 PG_HOST=localhost
 PG_USERNAME=postgres
