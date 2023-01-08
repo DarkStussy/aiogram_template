@@ -30,7 +30,7 @@ target_metadata = Base.metadata
 
 ##### Then create a revision file in terminal
 ```
-alembic revision -m "init"
+alembic revision --autogenerate -m "init"
 ```
 ##### And running upgrade
 ```
