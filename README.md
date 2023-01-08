@@ -2,7 +2,7 @@
 
 Very simple aiogram bot template. Reference and idea: https://github.com/Tishka17/tgbot_template
 
-Stack: aiogram, PostgreSQL (SQLAlchemy + asyncpg), aioschedule, redis.
+Stack: aiogram, PostgreSQL (SQLAlchemy + asyncpg), aioschedule, redis, alembic + psycopg2.
 
 # How to use
 
