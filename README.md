@@ -13,7 +13,31 @@ Stack: aiogram, PostgreSQL (SQLAlchemy + asyncpg), aioschedule, redis.
 python install -r requirements.txt
 ```
 
-### 3. Rename .env.example to .env and edit file
+### 3. Initialize alembic in terminal
+```
+alembic init database/migrations
+```
+## Configurate alembic.ini
+```
+sqlalchemy.url = postgresql+psycopg2://username:password@localhost/dbname
+```
+
+## Edit env.py and add the following lines
+```
+from app import Base
+target_metadata = Base.metadata
+```
+
+## Then create a revision file in terminal
+```
+alembic revision -m "init"
+```
+## And running upgrade
+```
+alembic upgrade heads
+```
+
+### 4. Rename .env.example to .env and edit file
 
 ```
 BOT_TOKEN=  <-(Here bot token from BotFather
@@ -24,9 +48,9 @@ PG_PASSWORD= <-(your postgres password)
 PG_DATABASE= <-(here database name)
 ```
 
-### 4. Change admin IDs in config.py (line 34)
+### 5. Change admin IDs in config.py (line 34)
 
-### 5. Now start bot to check
+### 6. Now start bot to check
 ```
 python app.py
 ```

@@ -1,36 +1,22 @@
 import asyncio
 import logging
 
+from aiogram import Dispatcher, Bot
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
+from aiogram.contrib.fsm_storage.redis import RedisStorage2
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, AsyncEngine
 from sqlalchemy.orm import sessionmaker
 
-from aiogram.contrib.fsm_storage.redis import RedisStorage2
-
 from config import load_config
-
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, AsyncEngine
-
-from database.base import Base
-from aiogram import Dispatcher, Bot
-
 from filters.admin import AdminFilter
 from handlers import setup_handlers
 from middlewares.database import DatabaseMiddleware
 from middlewares.role import RoleMiddleware
 from middlewares.throttling import ThrottlingMiddleware
-
-from utils.set_bot_commands import set_default_commands
 from utils.notify_admins import notify_admins
+from utils.set_bot_commands import set_default_commands
 
-
-async def create_engine(host: str, password: str, username: str, database: str) -> AsyncEngine:
-    engine = create_async_engine(
-        f'postgresql+asyncpg://{username}:{password}@{host}/'
-        f'{database}', echo=False, future=True)
-
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-    return engine
+from database.base import Base
 
 
 async def main():
@@ -42,7 +28,9 @@ async def main():
     else:
         storage = MemoryStorage()
 
-    engine = await create_engine(config.db.host, config.db.password, config.db.username, config.db.database)
+    engine: AsyncEngine = create_async_engine(
+        f'postgresql+asyncpg://{config.db.username}:{config.db.password}@{config.db.host}/'
+        f'{config.db.database}', echo=False, future=True)
     db_session = sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
 
     bot = Bot(token=config.bot.token)
