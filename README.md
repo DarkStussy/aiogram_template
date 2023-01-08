@@ -17,22 +17,22 @@ python install -r requirements.txt
 ```
 alembic init database/migrations
 ```
-## Configurate alembic.ini
+##### Configurate alembic.ini
 ```
 sqlalchemy.url = postgresql+psycopg2://username:password@localhost/dbname
 ```
 
-## Edit env.py and add the following lines
+##### Edit env.py and add the following lines
 ```
 from app import Base
 target_metadata = Base.metadata
 ```
 
-## Then create a revision file in terminal
+##### Then create a revision file in terminal
 ```
 alembic revision -m "init"
 ```
-## And running upgrade
+##### And running upgrade
 ```
 alembic upgrade heads
 ```
