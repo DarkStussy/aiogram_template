@@ -24,7 +24,7 @@ async def main():
 
     config = load_config()
     if config.bot.use_redis:
-        storage = RedisStorage2('localhost', 6379, db=5, pool_size=10)
+        storage = RedisStorage2('localhost', 6379, db=5, pool_size=10, password=config.bot.redis_password)
     else:
         storage = MemoryStorage()
 

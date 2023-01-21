@@ -1,19 +1,20 @@
 from aiogram import types, Dispatcher
-from aiogram.dispatcher import FSMContext
 from aiogram.types import ChatType
 
 from database.api.gateways import Gateway
 from keyboard.inline import get_kb_menu
 
 
-async def send_menu(message: types.Message, gateway: Gateway, state: FSMContext):
-    await state.finish()
+async def start(message: types.Message, gateway: Gateway):
+    user = await gateway.user.create(message.chat.id, message.chat.username)
+    await message.answer(f'Hello, {user.username if user.username else "human"}')
+
+
+async def send_menu(message: types.Message, gateway: Gateway):
     user = await gateway.user.get_by_chat_id(message.chat.id)
-    if user:
-        await message.answer(f'Hi, {user.username}!', reply_markup=get_kb_menu())
-    else:
-        await message.answer('Hello!')
+    await message.answer('Menu:', reply_markup=get_kb_menu(user.username))
 
 
 def register_menu(dp: Dispatcher):
-    dp.register_message_handler(send_menu, commands=['start', 'menu'], state='*', chat_type=ChatType.PRIVATE)
+    dp.register_message_handler(send_menu, commands=['menu'], chat_type=ChatType.PRIVATE)
+    dp.register_message_handler(start, commands=['start'], chat_type=ChatType.PRIVATE)

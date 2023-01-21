@@ -18,6 +18,7 @@ class BotConfig:
     token: str
     admins: tuple[int]
     use_redis: bool
+    redis_password: str = None
 
 
 @dataclass
@@ -32,7 +33,8 @@ def load_config():
     return Config(bot=BotConfig(
         token=os.getenv('BOT_TOKEN'),
         admins=(12345,),
-        use_redis=True),
+        use_redis=True,
+        redis_password=os.getenv('REDIS_PASSWORD')),
         db=DatabaseConfig(
             host=os.getenv('PG_HOST'),
             password=os.getenv('PG_PASSWORD'),

@@ -37,7 +37,7 @@ alembic revision --autogenerate -m "init"
 alembic upgrade heads
 ```
 
-### 4. Rename .env.example to .env and edit file
+### 4. Rename .envexample to .env and edit file
 
 ```
 BOT_TOKEN=  <-(Here bot token from BotFather)
@@ -46,6 +46,8 @@ PG_HOST=localhost
 PG_USERNAME=postgres
 PG_PASSWORD= <-(your postgres password)
 PG_DATABASE= <-(here database name)
+
+REDIS_PASSWORD= <-(here redis password)
 ```
 
 ### 5. Change admin IDs in config.py (line 34)
