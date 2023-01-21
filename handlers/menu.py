@@ -12,7 +12,7 @@ async def start(message: types.Message, gateway: Gateway):
 
 async def send_menu(message: types.Message, gateway: Gateway):
     user = await gateway.user.get_by_chat_id(message.chat.id)
-    await message.answer('Menu:', reply_markup=get_kb_menu(user.username))
+    await message.answer('Menu:', reply_markup=get_kb_menu(user.username if user.username else 'human'))
 
 
 def register_menu(dp: Dispatcher):
