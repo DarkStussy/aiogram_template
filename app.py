@@ -1,5 +1,6 @@
 import asyncio
 import logging
+from typing import Callable
 
 from aiogram import Dispatcher, Bot
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
@@ -16,7 +17,7 @@ from middlewares.throttling import ThrottlingMiddleware
 from utils.notify_admins import notify_admins
 from utils.set_bot_commands import set_default_commands
 
-from database.base import Base
+from database.models import Base
 
 
 async def main():
@@ -31,14 +32,14 @@ async def main():
     engine: AsyncEngine = create_async_engine(
         f'postgresql+asyncpg://{config.db.username}:{config.db.password}@{config.db.host}/'
         f'{config.db.database}', echo=False, future=True)
-    db_session = sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
+    db_sessionmaker: Callable = sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
 
     bot = Bot(token=config.bot.token)
     dp = Dispatcher(bot, storage=storage)
 
     dp.middleware.setup(ThrottlingMiddleware(limit=1))
     dp.middleware.setup(RoleMiddleware(config.bot.admins))
-    dp.middleware.setup(DatabaseMiddleware(db_session))
+    dp.middleware.setup(DatabaseMiddleware(db_sessionmaker))
 
     dp.filters_factory.bind(AdminFilter)
 
